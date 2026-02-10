@@ -1,86 +1,89 @@
+:root {
+    --fondo-gradiente: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --texto: #6a1b9a;
+}
+
 body {
-    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-    height: 100vh;
+    background: var(--fondo-gradiente);
+    min-height: 100vh;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ANIMACIÓN SAKURA (CEREZOS) */
+.sakura {
+    position: absolute;
+    background-color: #ffc0cb;
+    border-radius: 100% 0 100% 100%;
+    opacity: 0.7;
+    pointer-events: none;
+    animation: fall linear infinite, sway ease-in-out infinite alternate;
+}
+
+@keyframes fall {
+    0% { top: -10%; transform: rotate(0deg); }
+    100% { top: 110%; transform: rotate(360deg); }
+}
+
+@keyframes sway {
+    from { margin-left: 0px; }
+    to { margin-left: 40px; }
 }
 
 .calendario-card {
-    background: white;
-    width: 380px;
+    background: var(--card-bg);
+    width: 95%;
+    max-width: 480px; /* Casillas más grandes */
     border-radius: 30px;
-    padding: 25px;
+    padding: 20px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    z-index: 1;
+    backdrop-filter: blur(5px);
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.header h2 { color: var(--texto); margin: 0; }
 
-.btn-nav {
-    background: #f3e5f5;
-    border: none;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    cursor: pointer;
-    color: #6a1b9a;
-}
-
-.dias-semana {
+/* ESTO CORRIGE EL ERROR DE LOS DÍAS EN VERTICAL */
+.dias-semana, .grid-calendario {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    color: #b39ddb;
-    font-size: 0.8em;
-    margin-bottom: 10px;
-}
-
-.grid-calendario {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+    gap: 8px;
 }
 
 .dia {
     aspect-ratio: 1;
+    background-color: white;
+    border-radius: 12px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border-radius: 12px;
-    transition: 0.2s;
+    font-weight: bold;
+    border: 1px solid #f3e5f5;
+    transition: 0.3s;
 }
 
-/* Colores de estrés */
+.dia:hover { transform: scale(1.1); background-color: #f3e5f5; }
+
+.emoji-dia { font-size: 1.4rem; margin-top: 2px; }
+
+/* COLORES */
 .estres-bajo { background-color: #c8e6c9 !important; }
 .estres-medio { background-color: #fff9c4 !important; }
 .estres-alto { background-color: #ffccbc !important; }
 .estres-critico { background-color: #ffcdd2 !important; }
 
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.2);
-    backdrop-filter: blur(4px);
-}
-
-.modal-content {
-    background: white;
-    width: 280px;
-    margin: 20% auto;
-    padding: 25px;
-    border-radius: 25px;
-    text-align: center;
-}
-
-.btn-save { background: #a18cd1; color: white; border: none; padding: 10px 20px; border-radius: 15px; cursor: pointer; }
-.btn-cancel { background: #eee; border: none; padding: 10px 20px; border-radius: 15px; margin-left: 5px; cursor: pointer; }
+/* MODAL */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); z-index: 10; }
+.modal-content { background: white; width: 280px; margin: 20vh auto; padding: 25px; border-radius: 20px; text-align: center; }
+.btn-save { background: #a18cd1; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
+.btn-cancel { background: #eee; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; margin-left: 5px; }
